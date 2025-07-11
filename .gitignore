@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Env
+venv/
+.env
+
+# Docker
+*.pid
+*.log
+
+# Logs
+logs/
+*.log
+
+# Data files (optional)
+datasets/
+*.parquet
+*.csv
+
+# Airflow
+airflow/
