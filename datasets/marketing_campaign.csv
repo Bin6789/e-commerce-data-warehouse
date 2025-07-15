@@ -1,2 +1,4 @@
-campaign_id,campaign_name,impressions,clicks,conversions
-1,Promo A,10000,200,50
+campaign_id,campaign_name,channel,start_date,end_date,budget
+101,Summer Sale,Email,2024-06-01,2024-06-30,5000
+102,Back to School,Social Media,2024-08-10,2024-09-05,7000
+103,Black Friday,Google Ads,2024-11-01,2024-11-30,15000
