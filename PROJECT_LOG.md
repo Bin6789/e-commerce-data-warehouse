@@ -42,3 +42,20 @@ Project logs go here.
 ### 💡 Notes/Learning:
 - Biết cách dùng Docker để mô phỏng một hệ thống Big Data hoàn chỉnh.
 - Airflow Web UI rất trực quan để quản lý DAG.
+
+## 📅 Ngày: 2025-07-15
+### ✅ Task Completed:
+- Cập nhật Docker Compose file với các phiên bản mới nhất của Airflow và Postgres
+- Chạy lại các container với cấu hình mới.
+- Tạo các bảng Star Schema trong PostgreSQL
+- Viết DAG `load_csv_to_postgres.py` dùng BashOperator và lệnh COPY
+- Nạp dữ liệu từ thư mục `airflow_dags/data/`
+- DAG đã chạy thành công trong Airflow UI
+- Đã commit & push với tag `v1.0-day3`
+### 🚩 Issues/Blockers:
+- Không có vấn đề lớn, chỉ cần chú ý đến phiên bản Docker images.
+### 🔥 Next Plan:
+- Real-time Streaming bằng Kafka & Spark
+### 💡 Notes/Learning
+- Học được cách sử dụng BashOperator trong Airflow để chạy lệnh hệ thống.
+- Biết cách nạp dữ liệu từ file CSV vào PostgreSQL bằng lệnh COPY.
