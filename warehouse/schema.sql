@@ -48,5 +48,6 @@ CREATE TABLE IF NOT EXISTS dim_campaign (
 CREATE TABLE IF NOT EXISTS dim_user (
     id INTEGER PRIMARY KEY,
     name VARCHAR(255),
-    email VARCHAR(255)
+    email VARCHAR(255),
+    created_at TIMESTAMP
 );

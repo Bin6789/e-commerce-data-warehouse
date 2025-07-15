@@ -9,7 +9,7 @@ def extract_and_load():
     )
     target_conn = psycopg2.connect(
         host='postgres',
-        database='dwh',
+        database='dbname',
         user='user',
         password='password'
     )
@@ -17,10 +17,10 @@ def extract_and_load():
     src_cur = source_conn.cursor()
     tgt_cur = target_conn.cursor()
 
-    src_cur.execute("SELECT id, name, email FROM users")
+    src_cur.execute("SELECT id, name, email, created_at FROM users")
     for row in src_cur.fetchall():
         tgt_cur.execute(
-            "INSERT INTO dim_user (id, name, email) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
+            "INSERT INTO dim_user (id, name, email, created_at) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING",
             row
         )
 
