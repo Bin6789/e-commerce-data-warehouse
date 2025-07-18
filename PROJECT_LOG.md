@@ -59,3 +59,31 @@ Project logs go here.
 ### 💡 Notes/Learning
 - Học được cách sử dụng BashOperator trong Airflow để chạy lệnh hệ thống.
 - Biết cách nạp dữ liệu từ file CSV vào PostgreSQL bằng lệnh COPY.
+
+## 📅 Ngày: 2025-07-18
+### ✅ Task Completed:
+- Sửa lại cấu trúc thư mục dự án và cấu trúc etl.
+- Tạo DAG 'generate_test_data.py' để sinh dữ liệu test và lưu dữ liệu vào datasets.
+- Sử dụng Faker để tạo dữ liệu ngẫu nhiên cho các bảng.
+- Cập nhật Dockerfile để cài đặt Faker.
+- Tạo DAG load dữ liệu vào raw dim tables
+- Chạy DAG thành công, dữ liệu đã được nạp vào các bảng trong PostgreSQL
+- Kiểm tra dữ liệu trong PostgreSQL để xác nhận.
+- Commit code và push lên GitHub với tag `v1.0-day5`
+
+### 🚩 Issues/Blockers:
+- Chú ý việc load dữ liệu vào các bảng raw dim tables, cần đảm bảo không trùng lặp dữ liệu.
+- Cần kiểm tra kỹ các trường dữ liệu để tránh lỗi khi sinh dữ liệu.
+- Chưa load được clickstream data và campaign data, vào fact_clickstream và fact_campaign_result.
+### 🔥 Next Plan:
+- Cập nhật các DAG để xử lý dữ liệu clickstream và campaign.
+- Xử lý dữ liệu được ingest từ API và Database MySQL.
+
+### 💡 Notes/Learning
+- Học được cách sử dụng Faker để sinh dữ liệu ngẫu nhiên cho các bảng trong PostgreSQL.
+- Biết cách cập nhật Dockerfile để cài đặt các thư viện Python cần thiết.
+- Hiểu rõ hơn về cách tổ chức cấu trúc thư mục trong dự án ETL.
+- Cách sử dụng DAG trong Airflow để tự động hóa quá trình nạp dữ liệu
+- Cách sử dụng PostgresHook để kết nối và thao tác với PostgreSQL trong Airflow.
+- Cách sử dụng BashOperator để chạy các lệnh hệ thống trong Airflow.
+- Cách sử dụng PythonOperator để chạy các hàm Python trong Airflow.

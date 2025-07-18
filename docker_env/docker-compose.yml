@@ -105,12 +105,14 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+      POSTGRES_DB: dwh
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ../warehouse/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ../warehouse/schema/schema_raw.sql:/docker-entrypoint-initdb.d/schema_raw.sql
+      - ../warehouse/schema/schema_dim.sql:/docker-entrypoint-initdb.d/schema_dim.sql
+      - ../warehouse/schema/schema_fact.sql:/docker-entrypoint-initdb.d/schema_fact.sql
     command: ["postgres", "-c", "wal_level=logical"]
     networks:
       - warehouse-network
@@ -125,7 +127,8 @@ services:
       - "5433:5432"
     volumes:
       - staging_pgdata:/var/lib/postgresql/data
-      - ./docker_env/init/staging:/docker-entrypoint-initdb.d
+      - ./init/staging/staging_schema.sql:/docker-entrypoint-initdb.d/staging_schema.sql
+    command: ["postgres", "-c", "wal_level=logical"]
     networks:
       - warehouse-network
 
@@ -142,7 +145,9 @@ services:
       - warehouse-network
 
   airflow-init:
-    image: apache/airflow:2.9.2
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: airflow-init
     entrypoint: /bin/bash
     command:
@@ -157,13 +162,16 @@ services:
       _AIRFLOW_WWW_USER_USERNAME: airflow
       _AIRFLOW_WWW_USER_PASSWORD: airflow
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW_CONN_POSTGRES_DWH: 'postgresql+psycopg2://user:password@postgres:5432/dwh'
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__WEBSERVER__SECRET_KEY: mysecretkey1234567890
     networks:
       - warehouse-network
 
   airflow-webserver:
-    image: apache/airflow:2.9.2
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: airflow-webserver
     restart: always
     depends_on:
@@ -175,15 +183,17 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__WEBSERVER__SECRET_KEY: mysecretkey1234567890
+      AIRFLOW_CONN_POSTGRES_DWH: 'postgresql+psycopg2://user:password@postgres:5432/dwh'
     volumes:
       - ../airflow_dags:/opt/airflow/dags
       - ../datasets:/opt/airflow/datasets
-      - ../ingestion:/opt/airflow/ingestion
     networks:
       - warehouse-network
 
   airflow-scheduler:
-    image: apache/airflow:2.9.2
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: airflow-scheduler
     restart: always
     depends_on:
@@ -193,10 +203,10 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__WEBSERVER__SECRET_KEY: mysecretkey1234567890
+      AIRFLOW_CONN_POSTGRES_DWH: 'postgresql+psycopg2://user:password@postgres:5432/dwh'
     volumes:
       - ../airflow_dags:/opt/airflow/dags
       - ../datasets:/opt/airflow/datasets
-      - ../ingestion:/opt/airflow/ingestion
     networks:
       - warehouse-network
 

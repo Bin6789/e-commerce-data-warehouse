@@ -1,0 +1,4 @@
+pandas==2.0.3
+apache-airflow-providers-postgres==5.9.0
+sqlalchemy==2.0.30
+faker==19.11.0
