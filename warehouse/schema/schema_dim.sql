@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS dim_clickstream (
     user_id INT,
     session_id TEXT,
     page_url TEXT,
-    device_type TEXT,
+    device_type TEXT
 );
 
 

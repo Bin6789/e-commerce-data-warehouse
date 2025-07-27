@@ -32,12 +32,14 @@ CREATE TABLE IF NOT EXISTS raw_orders (
     product_id INT,
     order_date TIMESTAMP,
     quantity INT,
+    total_amount NUMERIC,
     FOREIGN KEY (user_id) REFERENCES raw_users(user_id),
     FOREIGN KEY (product_id) REFERENCES raw_products(product_id)
 );
 
 CREATE TABLE IF NOT EXISTS raw_clickstreams (
-    event_time TIMESTAMP PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    event_time TIMESTAMP,
     user_id INT,
     session_id TEXT,
     page_url TEXT,

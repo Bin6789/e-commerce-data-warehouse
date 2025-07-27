@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Định nghĩa đường dẫn dữ liệu
-DATA_DIR = '/opt/airflow/datasets'
+DATA_DIR = '/opt/airflow/datasets/static'
 BASE_DIR = os.path.abspath(DATA_DIR)
 
 # Cấu hình mặc định

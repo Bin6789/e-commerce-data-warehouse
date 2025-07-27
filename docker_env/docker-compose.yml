@@ -98,7 +98,22 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
     networks:
       - warehouse-network
-
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: airflow
+      MYSQL_PASSWORD: airflow
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - warehouse-network
   postgres:
     image: postgres:14
     container_name: postgres
@@ -233,12 +248,22 @@ services:
       SPARK_MASTER_URL: spark://spark-master:7077
     networks:
       - warehouse-network
-
+  
+  fastapi:
+    build:
+      context: ../fastapi_server
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    networks:
+      - warehouse-network
+      
 volumes:
   kafka_data:
   pgdata:
   airflow-pgdata:
   staging_pgdata:
+  mysql_data:
 
 networks:
   warehouse-network:

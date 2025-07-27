@@ -10,6 +10,7 @@ def load_fact_orders():
     )
     cur = conn.cursor()
 
+    # Chỉ insert các order hợp lệ, ánh xạ đúng các trường và kiểu dữ liệu
     cur.execute("""
         INSERT INTO fact_order (
             order_id,
@@ -25,11 +26,11 @@ def load_fact_orders():
             o.product_id,
             o.order_date::DATE,
             o.quantity,
-            o.quantity * p.price
+            o.total_amount
         FROM raw_orders o
-        JOIN dim_user u ON o.user_id = u.user_id
-        JOIN dim_product p ON o.product_id = p.product_id
-        LEFT JOIN dim_date d ON d.date_key = o.order_date::DATE
+        INNER JOIN dim_user u ON o.user_id = u.user_id
+        INNER JOIN dim_product p ON o.product_id = p.product_id
+        INNER JOIN dim_date d ON d.date_key = o.order_date::DATE
         ON CONFLICT (order_id) DO NOTHING
     """)
 
